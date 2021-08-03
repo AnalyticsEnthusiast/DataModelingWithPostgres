@@ -67,9 +67,29 @@ time_table_create = ("""
 # INSERT RECORDS
 
 songplay_table_insert = ("""
+    INSERT INTO SongPlayFact (
+    songplay_id, 
+    start_time, 
+    user_id,  
+    level, 
+    song_id, 
+    artist_id,  
+    session_id,
+    location, 
+    user_agent
+    )
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
 """)
 
 user_table_insert = ("""
+    INSERT INTO UserDim (
+    user_id,
+    first_name,
+    last_name,
+    gender,
+    level
+    )
+    VALUES (%s, %s, %s, %s, %s)
 """)
 
 song_table_insert = ("""
@@ -95,11 +115,31 @@ artist_table_insert = ("""
 """)
 
 time_table_insert = ("""
+    INSERT INTO TimeDim (
+    start_time, 
+    hour, 
+    day, 
+    week, 
+    month, 
+    year, 
+    weekday
+    )
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
 """)
 
 # FIND SONGS
-
+#  where -> title, artist name, and duration
+# Fields -> timestamp, user ID, level, song ID, artist ID, session ID, location, and user agent 
 song_select = ("""
+    SELECT
+        s.song_id,
+        a.artist_id
+    FROM SongDim s
+    JOIN ArtistDim a
+    ON s.artist_id = a.artist_id
+    WHERE s.title = %s
+    AND a.name = %s
+    AND s.duration = %s
 """)
 
 # QUERY LISTS
