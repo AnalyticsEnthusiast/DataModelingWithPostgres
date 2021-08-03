@@ -14,35 +14,42 @@ def process_song_file(cur, filepath):
     cur.execute(song_table_insert, song_data)
     
     # insert artist record
-    artist_data = 
+    artist_data = list(df[["artist_id", "artist_name", "artist_location", "artist_latitude", "artist_longitude"]].values)
     cur.execute(artist_table_insert, artist_data)
 
 
 def process_log_file(cur, filepath):
+    
+    print(filepath)
     # open log file
-    df = 
+    df = pd.read_json(filepath, lines=True)
 
     # filter by NextSong action
-    df = 
+    df = df[(df['page'] == "NextSong")]
 
     # convert timestamp column to datetime
-    t = 
+    df["ts"] = pd.to_datetime(df["ts"])
     
     # insert time data records
-    time_data = 
-    column_labels = 
-    time_df = 
+    time_data = (df["ts"].dt.time, df["ts"].dt.hour, df["ts"].dt.day, df["ts"].dt.week, df["ts"].dt.month, df["ts"].dt.year, df["ts"].dt.weekday)
+    column_labels = ("Time","Hour", "Day", "Week", "Month", "Year","Weekday")
+    z = zip(column_labels, time_data)
+    t = dict(z)
+    time_df = pd.DataFrame(t)
 
     for i, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
 
     # load user table
-    user_df = 
+    user_df = df[["userId","firstName","lastName","gender","level"]]
+    #user_df = user_df[user_df["userId"] is not ""] #Issue here
 
     # insert user records
     for i, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
 
+    # Filter out null user_ids
+    #df = df[(df["userId"] != "")]
     # insert songplay records
     for index, row in df.iterrows():
         
@@ -56,7 +63,7 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = 
+        songplay_data = (index+1, row.ts, int(row.userId), row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
