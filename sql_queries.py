@@ -6,37 +6,23 @@ song_table_drop = "DROP TABLE IF EXISTS SongDim;"
 artist_table_drop = "DROP TABLE IF EXISTS ArtistDim;"
 time_table_drop = "DROP TABLE IF EXISTS TimeDim;"
 
+
 # CREATE TABLES
-
-songplay_table_create = ("""
-    CREATE TABLE IF NOT EXISTS SongPlayFact (
-    songplay_id int,
-    start_time varchar(50),
-    user_id int,
-    level varchar(5),
-    song_id varchar(50),
-    artist_id varchar(50), 
-    session_id int,
-    location varchar(200),
-    user_agent varchar(255)
-    );
-""")
-
 user_table_create = ("""
     CREATE TABLE IF NOT EXISTS UserDim (
-    user_id int,
+    user_id int PRIMARY KEY,
     first_name varchar(100),
     last_name varchar(100),
-    gender varchar(5),
+    gender varchar(1),
     level varchar(5)
     );
 """)
 
 song_table_create = ("""
     CREATE TABLE IF NOT EXISTS SongDim (
-    song_id varchar(50), 
+    song_id varchar(100) PRIMARY KEY, 
     title varchar(100),
-    artist_id varchar(50),
+    artist_id varchar(100),
     year int,
     duration decimal(8,5)
     );
@@ -44,9 +30,9 @@ song_table_create = ("""
 
 artist_table_create = ("""
     CREATE TABLE IF NOT EXISTS ArtistDim (
-    artist_id varchar(50),
+    artist_id varchar(100) PRIMARY KEY,
     name varchar(100),
-    location varchar(100),
+    location varchar(200),
     latitude DECIMAL(10,8), 
     longitude DECIMAL(11,8)
     );
@@ -54,15 +40,31 @@ artist_table_create = ("""
 
 time_table_create = ("""
     CREATE TABLE IF NOT EXISTS TimeDim (
-    start_time varchar(50), 
-    hour varchar(50), 
-    day varchar(50), 
-    week varchar(50), 
-    month varchar(50), 
-    year varchar(50), 
-    weekday varchar(50)
+    start_time timestamp PRIMARY KEY, 
+    hour int, 
+    day int, 
+    week int, 
+    month int, 
+    year int, 
+    weekday int
     );
 """)
+
+
+songplay_table_create = ("""
+    CREATE TABLE IF NOT EXISTS SongPlayFact (
+    songplay_id int PRIMARY KEY,
+    start_time timestamp,
+    user_id int REFERENCES UserDim (user_id),
+    level varchar(5),
+    song_id varchar(100) REFERENCES SongDim (song_id),
+    artist_id varchar(100) REFERENCES ArtistDim (artist_id), 
+    session_id int,
+    location varchar(200),
+    user_agent varchar(255)
+    );
+""")
+
 
 # INSERT RECORDS
 
@@ -79,6 +81,7 @@ songplay_table_insert = ("""
     user_agent
     )
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
 """)
 
 user_table_insert = ("""
@@ -90,6 +93,7 @@ user_table_insert = ("""
     level
     )
     VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
 """)
 
 song_table_insert = ("""
@@ -101,6 +105,7 @@ song_table_insert = ("""
     duration
     )
     VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
     """)
 
 artist_table_insert = ("""
@@ -112,6 +117,7 @@ artist_table_insert = ("""
     longitude
     )
     VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
 """)
 
 time_table_insert = ("""
@@ -125,6 +131,7 @@ time_table_insert = ("""
     weekday
     )
     VALUES (%s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
 """)
 
 # FIND SONGS
@@ -144,5 +151,5 @@ song_select = ("""
 
 # QUERY LISTS
 
-create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
+create_table_queries = [user_table_create, song_table_create, artist_table_create, time_table_create, songplay_table_create]
 drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]

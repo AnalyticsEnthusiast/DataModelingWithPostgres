@@ -18,37 +18,46 @@
 
 ### Design Overview
 
-*1. Backend Design*
+**1. Backend Design**
 
 <p>The database of choice was a PostgreSQL instance (v9.5.23) deployed on a single core, 4GB Ubuntu Virtual Machine (v16.04.7 LTS).</p>
 
 <p>A star schema configuration was chosen to improve read performance of the reports. There were 4 dimension tables and 1 fact table.</p>
 
-Fact tables 
-> SongPlayFact
 
-Dimension tables
-> UserDim
-> SongDim
-> ArtistDim
-> TimeDim
-
-Diagrams
-
-![ Conceptual Diagram !](/home/workspace/images/conceptual)
-
-![ Logical Diagram !](/home/workspace/images/logical)
-
-![ Physical Diagram !](/home/workspace/images/physical)
+| TableName    | Type        | PrimaryKey  |
+|--------------|:-----------:|------------:|
+| SongPlayFact | Fact        | songplay_id |
+| UserDim      | Dimention   | user_id     |
+| SongDim      | Dimention   | song_id     |
+| ArtistDim    | Dimention   | artist_id   |
+| TimeDim      | Dimention   | start_time  |
 
 
 
+*Conceptual Model Diagram*
 
-*2. ETL Design*
+![ Conceptual Diagram !](/home/workspace/images/conceptual.PNG)
+
+
+
+*Logical Model Diagram*
+
+![ Logical Diagram !](/home/workspace/images/logical.png)
+
+
+
+
+**2. ETL Design**
 
 <p>The ETL pipeline heavily utilises the psycopg2 package for interacting with the postgres database. Its used to wrap the SQL statements and provide an easy way to parameterize the queries so that are more extensible. Pandas was used for data manipulation/filtering. Embedded SQL statements were used to insert data into the database tables. </p>
 
 ![ ETL Diagram !](/home/workspace/images/etl_design)
+
+
+
+
+
 
 
 
