@@ -3,6 +3,7 @@
 ### Developer Details
 
 > Name: Darren Foley
+
 > Email: <darren.foley@ucdconnect.ie>
 
 
@@ -41,13 +42,13 @@ The project contains three parts;
 
 
 
-![ Conceptual Diagram !](/home/workspace/images/conceptual.PNG)
+![ Conceptual Diagram !](images/conceptual.PNG)
 *Conceptual Model Diagram*
 
 
 
 
-![ Logical Diagram !](/home/workspace/images/logical.png)
+![ Logical Diagram !](images/logical.png)
 *Logical Model Diagram*
 
 
@@ -57,7 +58,7 @@ The project contains three parts;
 <p>The ETL pipeline heavily utilises psycopg2 for interacting with the postgres database. It uses a cursor object to pass SQL statements to the cur.execute() method and provide an easy way to parameterize queries so they are more extensible. Pandas was used for data manipulation/filtering. Embedded SQL statements were used to insert data into the database tables. In order to avoid primary key violations the "ON CONFLICT DO NOTHING" statement was used as there may be duplicate artist_id's & song_id's present in the source data.</p>
 
 
-![ ETL Diagram !](/home/workspace/images/etl_design.png)
+![ ETL Diagram !](images/etl_design.png)
 *ETL Overview*
 
 <p>As shown above, the ETL process is a batch based data feed where data is loaded into the destination database. Currently, the etl scripts are scheduled through crontab to run on a daily basis at 9AM (see cron.example).</p>
@@ -93,7 +94,7 @@ ORDER BY session_count DESC
 LIMIT 10
 ```
 
-![ Graph output !](/home/workspace/images/top_10_users.png)
+![ Graph output !](images/top_10_users.png)
 
 
 <p>As shown in the above graph __Chloe Cuevas__ is the most active female user and __Ryan Smith__ is the most active male user.</p>
