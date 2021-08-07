@@ -21,6 +21,7 @@ The project contains three parts;
 
 
 <br/>
+
 ### Design Overview
 
 **1. Backend Design**
@@ -59,6 +60,7 @@ The project contains three parts;
 
 
 <br/>
+
 **2. ETL Design**
 
 <p>The ETL pipeline heavily utilises psycopg2 for interacting with the postgres database. It uses a cursor object to pass SQL statements to the cur.execute() method and provide an easy way to parameterize queries so they are more extensible. Pandas was used for data manipulation/filtering. Embedded SQL statements were used to insert data into the database tables. In order to avoid primary key violations the "ON CONFLICT DO NOTHING" statement was used as there may be duplicate artist_id's & song_id's present in the source data.</p>
@@ -74,6 +76,7 @@ The project contains three parts;
 
 
 <br/>
+
 **3. Front End Design**
 
 <p>A report on user behaviour was created as a proof of concept to demonstrate the utility of new data warehouse.</p>
