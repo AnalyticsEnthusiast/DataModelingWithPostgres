@@ -42,28 +42,25 @@ def process_log_file(cur, filepath):
 
     # load user table
     user_df = df[["userId","firstName","lastName","gender","level"]]
-    #user_df = user_df[user_df["userId"] is not ""] #Issue here
 
     # insert user records
     for i, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
 
-    # Filter out null user_ids
-    #df = df[(df["userId"] != "")]
-    # insert songplay records
     for index, row in df.iterrows():
         
         # get songid and artistid from song and artist tables
-        cur.execute(song_select, (row.song, row.artist, row.length))
+        cur.execute(song_select, [row.song, row.artist, row.length])
         results = cur.fetchone()
         
         if results:
             songid, artistid = results
+            print(songid, " : ",artistid)
         else:
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = (index+1, row.ts, int(row.userId), row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
+        songplay_data = (row.ts, int(row.userId), row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
