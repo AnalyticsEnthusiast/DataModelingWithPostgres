@@ -48,6 +48,7 @@ The project contains three parts;
 
 
 <br/>
+<br/>
 
 
 ![ Logical Diagram !](images/logical.png)
@@ -55,6 +56,8 @@ The project contains three parts;
 *Logical Model Diagram*
 
 <br/>
+
+
 
 **2. ETL Design**
 
@@ -100,5 +103,6 @@ LIMIT 10
 
 ![ Graph output !](images/top_10_users.png)
 
+<br/>
 
-<p>As shown in the above graph *Chloe Cuevas* is the most active female user and *Ryan Smith* is the most active male user.</p>
+As shown in the above graph **Chloe Cuevas** is the most active female user and **Ryan Smith** is the most active male user.
