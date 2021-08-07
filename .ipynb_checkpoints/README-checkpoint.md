@@ -43,15 +43,18 @@ The project contains three parts;
 
 
 ![ Conceptual Diagram !](images/conceptual.PNG)
+
 *Conceptual Model Diagram*
 
 
+<br/>
 
 
 ![ Logical Diagram !](images/logical.png)
+
 *Logical Model Diagram*
 
-
+<br/>
 
 **2. ETL Design**
 
@@ -59,6 +62,7 @@ The project contains three parts;
 
 
 ![ ETL Diagram !](images/etl_design.png)
+
 *ETL Overview*
 
 <p>As shown above, the ETL process is a batch based data feed where data is loaded into the destination database. Currently, the etl scripts are scheduled through crontab to run on a daily basis at 9AM (see cron.example).</p>
@@ -97,4 +101,4 @@ LIMIT 10
 ![ Graph output !](images/top_10_users.png)
 
 
-<p>As shown in the above graph __Chloe Cuevas__ is the most active female user and __Ryan Smith__ is the most active male user.</p>
+<p>As shown in the above graph *Chloe Cuevas* is the most active female user and *Ryan Smith* is the most active male user.</p>
