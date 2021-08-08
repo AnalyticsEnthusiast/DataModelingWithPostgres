@@ -27,15 +27,21 @@
 
 ### How to Run Scripts
 
-<p>A shell wrapper script </p>
-
-**run.sh**
-
-<p> was created to encapsulate the drop, creation and load steps. Simply run the script from the command line like so:</p>
+A shell wrapper script **run.sh** was created to encapsulate the drop, creation and load steps. Simply run the script from the command line like so:</p>
 
 ```
 /home/workspace# ./run.sh
 ```
+
+Or you can run create_tables.py and etl.py seperately like so:
+
+
+```
+/home/workspace# python create_tables.py
+
+/home/workspace# python etl.py
+```
+
 
 <p>This will run create_tables.py followed by the etl.py script.</p>
 
@@ -96,7 +102,7 @@ The project contains three parts;
 <br/>
 
 
-![ Logical Diagram !](images/logical.png)
+![ Logical Diagram !](images/logical2.png)
 
 *Logical Model Diagram*
 
