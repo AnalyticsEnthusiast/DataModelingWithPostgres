@@ -27,7 +27,11 @@
 
 ### How to Run Scripts
 
-<p>A shell wrapper script </p>**run.sh**<p> was created to encapsulate the drop, creation and load steps. Simply run the script from the command line like so:</p>
+<p>A shell wrapper script </p>
+
+**run.sh**
+
+<p> was created to encapsulate the drop, creation and load steps. Simply run the script from the command line like so:</p>
 
 ```
 /home/workspace# ./run.sh
