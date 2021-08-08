@@ -6,6 +6,18 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Description: Reads in a single song file based on the filepath, then inserts
+    the data into the target table using the cursor object. Loads song and artist
+    data only.
+    
+    Arguments: 
+        cur - Cursor object
+        filepath - Path to input json file
+    
+    Returns: 
+        None
+    """
     # open song file
     df = pd.read_json(filepath, typ='series')
 
@@ -19,7 +31,18 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Description: Reads in a single log file based on the filepath, then inserts
+    the data into the target table using the cursor object. Loads time, user and
+    song_play data.
     
+    Arguments: 
+        cur - Cursor object
+        filepath - Path to input json file
+    
+    Returns: 
+        None
+    """
     print(filepath)
     # open log file
     df = pd.read_json(filepath, lines=True)
@@ -32,7 +55,7 @@ def process_log_file(cur, filepath):
     
     # insert time data records
     time_data = (df["ts"], df["ts"].dt.hour, df["ts"].dt.day, df["ts"].dt.week, df["ts"].dt.month, df["ts"].dt.year, df["ts"].dt.weekday)
-    column_labels = ("StartTime", "Hour", "Day", "Week", "Month", "Year", "Weekday")
+    column_labels = ("start_time", "hour", "day", "week", "month", "year", "weekday")
     z = zip(column_labels, time_data)
     t = dict(z)
     time_df = pd.DataFrame(t)
@@ -65,6 +88,19 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Description: Executes either process_log_file or process_song_file
+    for each file in the data/song_data or data/log_data directory.
+    
+    Arguments: 
+        cur - Cursor object
+        conn - Connection object
+        filepath - Path to input directory
+        func - Either process_log_file or process_song_file
+    
+    Returns: 
+        None (Prints output to console)
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -84,6 +120,16 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+    Description: Main executing loop. Sets up connection, cursor then
+    processes the input files for logs and songs.
+    
+    Arguments: 
+        None
+    
+    Returns: 
+        None
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
