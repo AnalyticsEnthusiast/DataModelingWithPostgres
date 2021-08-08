@@ -6,6 +6,46 @@
 
 > Email: <darren.foley@ucdconnect.ie>
 
+<br/>
+
+### File List 
+
+| FileName          | Description                                                    |
+|------------------:|:---------------------------------------------------------------|
+| create_tables.py  | Drops and creates tables for Star Schema                       |
+| cron.example      | Example cron file for scheduling the etl.py                    |
+| Dashboard.ipynb   | Sample query and graph for front end visualization             |
+| etl.ipnb          | etl testing Jupter notebook                                    |
+| README.md         | Markdown README file                                           |
+| requirements.txt  | List of pip dependencies                                       |
+| run.sh            | Bash wrapper script for running create_tables.py and etl.py    |
+| sql_queries.py    | Contains SQL code for table creation and SQL insert statements |
+| test.ipyb         | Test notebook for testing data quality                         |
+
+
+<br/>
+
+### How to Run Scripts
+
+<p>A shell wrapper script </p>**run.sh**<p> was created to encapsulate the drop, creation and load steps. Simply run the script from the command line like so:</p>
+
+```
+/home/workspace# ./run.sh
+```
+
+<p>This will run create_tables.py followed by the etl.py script.</p>
+
+<p>You should see output like the following. There are 71 song files and 30 log files in total</p>
+
+```
+....
+71/71 files processed.
+
+.....
+30/30 files processed.
+```
+
+<br/>
 
 ### Project High Level Summary
 
@@ -31,19 +71,19 @@ The project contains three parts;
 <p>A star schema configuration was chosen to improve read performance of the reports. There were 4 dimension tables and 1 fact table.</p>
 
 
-| TableName    | Type        | PrimaryKey  | Description                                                                   |
-|--------------|:-----------:|------------:|:-----------------------------------------------------------------------------:|
-| SongPlayFact | Fact        | songplay_id | Stores numeric information on song plays.                                     |
-| UserDim      | Dimension   | user_id     | Information relating to end users of the Sparkify platform.                   |
-| SongDim      | Dimension   | song_id     | Information relating to songs, duration, release date etc.                    |
-| ArtistDim    | Dimension   | artist_id   | Information relating to artists, location etc.                                |
-| TimeDim      | Dimension   | start_time  | Time dimension allows for data to be rolled up over different time durations. |
+| TableName      | Type        | PrimaryKey  | Description                                                                   |
+|--------------  |:-----------:|------------:|:-----------------------------------------------------------------------------:|
+| song_play_fact | Fact        | songplay_id | Stores numeric information on song plays.                                     |
+| user_dim       | Dimension   | user_id     | Information relating to end users of the Sparkify platform.                   |
+| song_dim       | Dimension   | song_id     | Information relating to songs, duration, release date etc.                    |
+| artist_dim     | Dimension   | artist_id   | Information relating to artists, location etc.                                |
+| time_dim       | Dimension   | start_time  | Time dimension allows for data to be rolled up over different time durations. |
 
 
 
 
 
-![ Conceptual Diagram !](images/conceptual.PNG)
+![ Conceptual Diagram !](images/conceptual.png)
 
 *Conceptual Model Diagram*
 
@@ -57,8 +97,6 @@ The project contains three parts;
 *Logical Model Diagram*
 
 <br/>
-
-
 <br/>
 
 **2. ETL Design**
@@ -91,8 +129,8 @@ SELECT
     u.level,
     u.gender,
     COUNT(DISTINCT sp.session_id) as session_count
-FROM SongPlayFact sp
-INNER JOIN UserDim u
+FROM song_play_fact sp
+INNER JOIN user_dim u
 ON u.user_id = sp.user_id
 GROUP BY 
     sp.user_id,
